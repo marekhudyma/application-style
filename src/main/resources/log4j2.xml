@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration>
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="${env:CONSOLE_LOG_PATTERN:-%d %p %c [%t] %m%n}"/>
+        </Console>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.marekhudyma" level="info" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>
