@@ -6,7 +6,7 @@ import com.marekhudyma.testcontainers.controller.dto.AccountDto;
 import com.marekhudyma.testcontainers.model.Account;
 import com.marekhudyma.testcontainers.service.AccountService;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,7 +20,7 @@ import static org.springframework.http.HttpStatus.CREATED;
 @RestController
 @RequestMapping("/accounts")
 @RequiredArgsConstructor
-@Log4j
+@Log4j2
 public class AccountController {
 
     private final AccountService accountService;

@@ -21,11 +21,9 @@ public class ExternalServiceClient {
 
     public Optional<ExternalServiceResponseDto> getExternal(String name) {
         try {
-            ResponseEntity<ExternalServiceResponseDto> response = restTemplate.getForEntity("{externalServiceUrl}/api/entity/{name}",
+            ResponseEntity<ExternalServiceResponseDto> response = restTemplate.getForEntity(externalServiceUrl + "/api/entity/{name}",
                     ExternalServiceResponseDto.class,
-                    externalServiceUrl,
                     name);
-
             if (response.getStatusCode().is2xxSuccessful()) {
                 return Optional.ofNullable(response.getBody());
             } else {

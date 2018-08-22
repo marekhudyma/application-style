@@ -2,8 +2,6 @@ package com.marekhudyma.testcontainers.util;
 
 import com.github.dockerjava.api.command.InspectContainerResponse;
 import org.mockserver.client.MockServerClient;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.testcontainers.containers.GenericContainer;
 
 public class MockServerContainer extends GenericContainer<MockServerContainer> {

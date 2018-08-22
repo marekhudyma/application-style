@@ -47,6 +47,7 @@ public class AccountControllerIntegrationTest extends AbstractIntegrationTest {
     @Before
     public void setUp() throws Exception {
         testQueueReceiver.clean();
+        mockServerContainer.getClient().reset();
     }
 
     @After
@@ -82,11 +83,11 @@ public class AccountControllerIntegrationTest extends AbstractIntegrationTest {
         await().atMost(120, SECONDS)
                 .pollInterval(100, MILLISECONDS)
                 .until(() -> {
-            Optional<MessageDto> messageOptional = testQueueReceiver.getMessages().stream()
-                    .filter(a -> a.getId().equals(expected.getId()))
-                    .findFirst();
+                    Optional<MessageDto> messageOptional = testQueueReceiver.getMessages().stream()
+                            .filter(a -> a.getId().equals(expected.getId()))
+                            .findFirst();
 
-            return messageOptional.isPresent();
-        });
+                    return messageOptional.isPresent();
+                });
     }
 }

@@ -31,7 +31,7 @@ public class AccountRepositoryIntegrationTest extends AbstractIntegrationTest {
         Account account = Account.builder().name(name).additionalInfo("additionalInfo").build();
         accountRepository.save(account);
 
-        Account actual = accountRepository.findOne(account.getId());
+        Account actual = accountRepository.findById(account.getId()).get();
         assertEquals("should be equal", account, actual);
     }
 

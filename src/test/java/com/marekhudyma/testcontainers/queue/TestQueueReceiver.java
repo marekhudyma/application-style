@@ -1,7 +1,7 @@
 package com.marekhudyma.testcontainers.queue;
 
 import com.marekhudyma.testcontainers.config.RabbitConsumerQueueConfig;
-import lombok.extern.log4j.Log4j;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Component;
@@ -11,7 +11,7 @@ import java.util.Collection;
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
-@Log4j
+@Log4j2
 @Component
 public class TestQueueReceiver {
 
