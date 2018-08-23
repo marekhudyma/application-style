@@ -12,7 +12,7 @@ import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 @Log4j2
-@Component
+@Component("testQueueReceiver")
 public class TestQueueReceiver {
 
     private Queue<MessageDto> accounts = new ConcurrentLinkedQueue<>();

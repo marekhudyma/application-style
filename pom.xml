@@ -8,8 +8,8 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>postgresql</name>
-	<description></description>
+	<name>testcontainers</name>
+	<description>sample project</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>
@@ -23,10 +23,13 @@
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<java.version>1.8</java.version>
 		<postgres.version>42.2.4</postgres.version>
-		<os-maven-plugin.version>${jsonassert.version}.Final</os-maven-plugin.version>
+		<os-maven-plugin.version>1.5.0.Final</os-maven-plugin.version>
 		<flyway.version>5.1.4</flyway.version>
 		<!-- test -->
-		<junit.version>4.12</junit.version>
+		<junit.jupiter.version>5.2.0</junit.jupiter.version>
+		<mockito-junit-jupiter.version>2.21.0</mockito-junit-jupiter.version>
+		<junit.platform.version>1.2.0</junit.platform.version>
+		<assertj.version>3.11.0</assertj.version>
 		<awaitility.version>3.1.2</awaitility.version>
 		<jsonassert.version>1.5.0</jsonassert.version>
 		<unitils-core.version>3.4.6</unitils-core.version>
@@ -69,10 +72,6 @@
 			<artifactId>HikariCP</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-java8</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 		</dependency>
@@ -111,9 +110,21 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>${junit.version}</version>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<version>${junit.jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.mockito</groupId>
+			<artifactId>mockito-junit-jupiter</artifactId>
+			<version>${mockito-junit-jupiter.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.assertj</groupId>
+			<artifactId>assertj-core</artifactId>
+			<version>${assertj.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -134,7 +145,6 @@
 			<version>${unitils-core.version}</version>
 			<scope>test</scope>
 		</dependency>
-
 		<dependency>
 			<groupId>org.testcontainers</groupId>
 			<artifactId>postgresql</artifactId>
@@ -151,13 +161,6 @@
 	</dependencies>
 
 	<build>
-		<extensions>
-			<extension>
-				<groupId>kr.motd.maven</groupId>
-				<artifactId>os-maven-plugin</artifactId>
-				<version>${os-maven-plugin.version}</version>
-			</extension>
-		</extensions>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
@@ -166,12 +169,31 @@
 
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>${maven-surefire-plugin.version}</version>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>${junit.platform.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.junit.jupiter</groupId>
+						<artifactId>junit-jupiter-engine</artifactId>
+						<version>${junit.jupiter.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-failsafe-plugin</artifactId>
 				<version>${maven-failsafe-plugin.version}</version>
 				<configuration>
-					<systemPropertyVariables>
-						<com.amazonaws.sdk.disableCbor>true</com.amazonaws.sdk.disableCbor>
-					</systemPropertyVariables>
+					<runOrder>alphabetical</runOrder>
+					<excludes>
+						<exclude>**/*IntegrationTest.java</exclude>
+					</excludes>
+					<reportsDirectory>${project.build.directory}/reports/surefire</reportsDirectory>
 				</configuration>
 				<executions>
 					<execution>
@@ -181,7 +203,20 @@
 						</goals>
 					</execution>
 				</executions>
+				<dependencies>
+					<dependency>
+						<groupId>org.junit.platform</groupId>
+						<artifactId>junit-platform-surefire-provider</artifactId>
+						<version>${junit.platform.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>org.junit.jupiter</groupId>
+						<artifactId>junit-jupiter-engine</artifactId>
+						<version>${junit.jupiter.version}</version>
+					</dependency>
+				</dependencies>
 			</plugin>
+
 		</plugins>
 	</build>
 

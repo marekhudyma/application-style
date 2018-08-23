@@ -3,58 +3,60 @@ package com.marekhudyma.testcontainers.repository;
 
 import com.marekhudyma.testcontainers.model.Account;
 import com.marekhudyma.testcontainers.util.AbstractIntegrationTest;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 
 import java.util.Optional;
 import java.util.UUID;
 
-import static junit.framework.TestCase.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 
-public class AccountRepositoryIntegrationTest extends AbstractIntegrationTest {
+class AccountRepositoryIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     private AccountRepository accountRepository;
 
     private String name;
 
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    void setUp() throws Exception {
         name = UUID.randomUUID().toString();
     }
 
     @Test
-    public void shouldCreateAccount() throws Exception {
+    void shouldCreateAccount() throws Exception {
         Account account = Account.builder().name(name).additionalInfo("additionalInfo").build();
         accountRepository.save(account);
 
         Account actual = accountRepository.findById(account.getId()).get();
-        assertEquals("should be equal", account, actual);
-    }
-
-    @Test(expected = DataIntegrityViolationException.class)
-    public void shouldNotCreateTwoAccountWithTheSameName() throws Exception {
-        accountRepository.save(Account.builder().name(name).additionalInfo("additionalInfo").build());
-        accountRepository.save(Account.builder().name(name).additionalInfo("additionalInfo").build());
+        assertThat(actual).isEqualTo(account);
     }
 
     @Test
-    public void shouldFindByName() throws Exception {
+    void shouldNotCreateTwoAccountWithTheSameName() throws Exception {
+        accountRepository.save(Account.builder().name(name).additionalInfo("additionalInfo").build());
+
+        assertThrows(DataIntegrityViolationException.class,
+                () -> accountRepository.save(Account.builder().name(name).additionalInfo("additionalInfo").build()));
+    }
+
+    @Test
+    void shouldFindByName() throws Exception {
         Account account = Account.builder().name(name).additionalInfo("additionalInfo").build();
         accountRepository.save(account);
 
         Optional<Account> actual = accountRepository.findByName(name);
-        assertEquals("should be equal", Optional.of(account), actual);
+        assertThat(actual.get()).isEqualTo(account);
     }
 
     @Test
-    public void shouldNotFindByName() throws Exception {
-        Optional<Account> expected = Optional.empty();
+    void shouldNotFindByName() throws Exception {
         Optional<Account> actual = accountRepository.findByName(UUID.randomUUID().toString());
-        assertEquals("should be equal", expected, actual);
+        assertThat(actual).isEmpty();
     }
 
 }

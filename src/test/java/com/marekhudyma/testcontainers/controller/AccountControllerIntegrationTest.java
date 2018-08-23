@@ -8,9 +8,9 @@ import com.marekhudyma.testcontainers.queue.MessageDto;
 import com.marekhudyma.testcontainers.queue.TestQueueReceiver;
 import com.marekhudyma.testcontainers.repository.AccountRepository;
 import com.marekhudyma.testcontainers.util.AbstractIntegrationTest;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.mockserver.model.HttpRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
@@ -25,7 +25,7 @@ import java.util.Optional;
 import static com.marekhudyma.testcontainers.util.Resources.readFromResources;
 import static java.util.concurrent.TimeUnit.MILLISECONDS;
 import static java.util.concurrent.TimeUnit.SECONDS;
-import static junit.framework.TestCase.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.awaitility.Awaitility.await;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
@@ -33,7 +33,7 @@ import static org.springframework.http.HttpMethod.POST;
 import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 
-public class AccountControllerIntegrationTest extends AbstractIntegrationTest {
+class AccountControllerIntegrationTest extends AbstractIntegrationTest {
 
     @Autowired
     protected TestRestTemplate restTemplate;
@@ -44,19 +44,8 @@ public class AccountControllerIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private TestQueueReceiver testQueueReceiver;
 
-    @Before
-    public void setUp() throws Exception {
-        testQueueReceiver.clean();
-        mockServerContainer.getClient().reset();
-    }
-
-    @After
-    public void tearDown() throws Exception {
-        testQueueReceiver.clean();
-    }
-
     @Test
-    public void shouldCreateAccount() {
+    void shouldCreateAccount() {
         // given
         HttpRequest request = request("/api/entity/name.1").withMethod("GET");
         mockServerContainer.getClient().when(request)
@@ -74,7 +63,7 @@ public class AccountControllerIntegrationTest extends AbstractIntegrationTest {
 
         // than
         mockServerContainer.getClient().verify(request);
-        assertEquals("should be equal", 201, responseEntity.getStatusCodeValue());
+        assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
 
         Account actual = accountRepository.findByName("name.1").get();
         Account expected = new AccountTestBuilder(1).withTestDefaults().created(null).name("name.1").build();

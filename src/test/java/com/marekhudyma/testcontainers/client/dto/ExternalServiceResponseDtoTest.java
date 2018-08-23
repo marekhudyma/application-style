@@ -1,41 +1,38 @@
 package com.marekhudyma.testcontainers.client.dto;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.marekhudyma.testcontainers.util.AbstractIntegrationTest;
+import org.junit.jupiter.api.Test;
 import org.skyscreamer.jsonassert.JSONAssert;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.json.JsonTest;
-import org.springframework.boot.test.json.JacksonTester;
-import org.springframework.test.context.junit4.SpringRunner;
 
 import static com.marekhudyma.testcontainers.util.Resources.readFromResources;
-import static junit.framework.TestCase.assertEquals;
+import static org.assertj.core.api.Assertions.assertThat;
 
-@RunWith(SpringRunner.class)
-@JsonTest
-public class ExternalServiceResponseDtoTest {
+
+class ExternalServiceResponseDtoTest extends AbstractIntegrationTest {
 
     @Autowired
-    private JacksonTester<ExternalServiceResponseDto> json;
+    private ObjectMapper objectMapper;
 
     @Test
-    public void serializeJson() throws Exception {
+    void serializeJson() throws Exception {
         ExternalServiceResponseDto additionalInfo = new ExternalServiceResponseDtoTestBuilder(1)
                 .withTestDefaults().build();
         String expected = readFromResources("additionalInfo1.json");
 
-        String actual = json.write(additionalInfo).getJson();
+        String actual = objectMapper.writeValueAsString(additionalInfo);
         JSONAssert.assertEquals(expected, actual, false);
     }
 
     @Test
-    public void testDeserialize() throws Exception {
+    void testDeserialize() throws Exception {
         ExternalServiceResponseDto expected = new ExternalServiceResponseDtoTestBuilder(1)
                 .withTestDefaults().build();
-        ExternalServiceResponseDto actual = json.parse(readFromResources("additionalInfo1.json"))
-                .getObject();
+        ExternalServiceResponseDto actual =
+                objectMapper.readValue(readFromResources("additionalInfo1.json"), ExternalServiceResponseDto.class);
 
-        assertEquals("should be equal", expected, actual);
+        assertThat(actual).isEqualTo(expected);
     }
 
 }
