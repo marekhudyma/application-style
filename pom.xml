@@ -32,7 +32,6 @@
 		<assertj.version>3.11.0</assertj.version>
 		<awaitility.version>3.1.2</awaitility.version>
 		<jsonassert.version>1.5.0</jsonassert.version>
-		<unitils-core.version>3.4.6</unitils-core.version>
 		<testcontainers-postgresql.version>1.8.1</testcontainers-postgresql.version>
 		<mockserver-netty.version>5.4.1</mockserver-netty.version>
 	</properties>
@@ -137,12 +136,6 @@
 			<groupId>org.skyscreamer</groupId>
 			<artifactId>jsonassert</artifactId>
 			<version>${jsonassert.version}</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.unitils</groupId>
-			<artifactId>unitils-core</artifactId>
-			<version>${unitils-core.version}</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

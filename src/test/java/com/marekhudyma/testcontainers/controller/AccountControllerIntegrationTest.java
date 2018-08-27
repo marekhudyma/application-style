@@ -18,7 +18,6 @@ import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.unitils.reflectionassert.ReflectionComparatorMode;
 
 import java.util.Optional;
 
@@ -30,7 +29,6 @@ import static org.awaitility.Awaitility.await;
 import static org.mockserver.model.HttpRequest.request;
 import static org.mockserver.model.HttpResponse.response;
 import static org.springframework.http.HttpMethod.POST;
-import static org.unitils.reflectionassert.ReflectionAssert.assertReflectionEquals;
 
 
 class AccountControllerIntegrationTest extends AbstractIntegrationTest {
@@ -44,11 +42,26 @@ class AccountControllerIntegrationTest extends AbstractIntegrationTest {
     @Autowired
     private TestQueueReceiver testQueueReceiver;
 
+    @BeforeEach
+    void setUp() throws Exception {
+        clean();
+    }
+
+    @AfterEach
+    void tearDown() throws Exception {
+        clean();
+    }
+
+    void clean() {
+        Optional<Account> accountOtional = accountRepository.findByName("name.1");
+        accountOtional.ifPresent(account1 -> accountRepository.delete(account1));
+    }
+
     @Test
     void shouldCreateAccount() {
         // given
         HttpRequest request = request("/api/entity/name.1").withMethod("GET");
-        mockServerContainer.getClient().when(request)
+        getMockServerContainer().getClient().when(request)
                 .respond(response()
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
                         .withStatusCode(200)
@@ -62,18 +75,18 @@ class AccountControllerIntegrationTest extends AbstractIntegrationTest {
                 AccountDto.class);
 
         // than
-        mockServerContainer.getClient().verify(request);
+        getMockServerContainer().getClient().verify(request);
         assertThat(responseEntity.getStatusCodeValue()).isEqualTo(201);
 
         Account actual = accountRepository.findByName("name.1").get();
         Account expected = new AccountTestBuilder(1).withTestDefaults().created(null).name("name.1").build();
-        assertReflectionEquals(expected, actual, ReflectionComparatorMode.IGNORE_DEFAULTS);
+        assertThat(actual).isEqualToIgnoringGivenFields(expected, "id", "created");
 
         await().atMost(120, SECONDS)
                 .pollInterval(100, MILLISECONDS)
                 .until(() -> {
                     Optional<MessageDto> messageOptional = testQueueReceiver.getMessages().stream()
-                            .filter(a -> a.getId().equals(expected.getId()))
+                            .filter(a -> a.getId().equals(actual.getId()))
                             .findFirst();
 
                     return messageOptional.isPresent();

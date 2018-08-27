@@ -31,7 +31,7 @@ class ExternalServiceClientIntegrationTest extends AbstractIntegrationTest {
     @Test
     void shouldGetResponseFromExternalService() throws Exception {
         HttpRequest request = request("/api/entity/name.1").withMethod("GET");
-        mockServerContainer.getClient().when(request)
+        getMockServerContainer().getClient().when(request)
                 .respond(response()
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
                         .withStatusCode(200)
@@ -42,13 +42,13 @@ class ExternalServiceClientIntegrationTest extends AbstractIntegrationTest {
         Optional<ExternalServiceResponseDto> actual = externalServiceClient.getExternal("name.1");
 
         assertThat(actual.get()).isEqualTo(expected);
-        mockServerContainer.getClient().verify(request);
+        getMockServerContainer().getClient().verify(request);
     }
 
     @Test
     void shouldFailBecauseOfTimeoutFromExternalService() throws Exception {
         HttpRequest request = request("/api/entity/name.1").withMethod("GET");
-        mockServerContainer.getClient().when(request)
+        getMockServerContainer().getClient().when(request)
                 .respond(response()
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
                         .withStatusCode(200)
@@ -59,26 +59,26 @@ class ExternalServiceClientIntegrationTest extends AbstractIntegrationTest {
         Optional<ExternalServiceResponseDto> actual = externalServiceClient.getExternal("name.1");
 
         assertThat(actual).isEqualTo(expected);
-        mockServerContainer.getClient().verify(request);
+        getMockServerContainer().getClient().verify(request);
     }
 
     @Test
     void shouldFailBecauseOf404ResponseFromExternalService() throws Exception {
         HttpRequest request = request("/api/entity/name.1").withMethod("GET");
-        mockServerContainer.getClient().when(request)
+        getMockServerContainer().getClient().when(request)
                 .respond(response()
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
                         .withStatusCode(404));
         Optional<ExternalServiceResponseDto> actual = externalServiceClient.getExternal("name.1");
 
         assertThat(actual).isEmpty();
-        mockServerContainer.getClient().verify(request);
+        getMockServerContainer().getClient().verify(request);
     }
 
     @Test
     void shouldFailBecauseOfEmptyContentFromExternalService() throws Exception {
         HttpRequest request = request("/api/entity/name.1").withMethod("GET");
-        mockServerContainer.getClient().when(request)
+        getMockServerContainer().getClient().when(request)
                 .respond(response()
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
                         .withStatusCode(200)
@@ -86,7 +86,7 @@ class ExternalServiceClientIntegrationTest extends AbstractIntegrationTest {
         Optional<ExternalServiceResponseDto> actual = externalServiceClient.getExternal("name.1");
 
         assertThat(actual).isEmpty();
-        mockServerContainer.getClient().verify(request);
+        getMockServerContainer().getClient().verify(request);
     }
 
 }

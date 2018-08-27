@@ -44,10 +44,15 @@ class AccountServiceIntegrationTest extends AbstractIntegrationTest {
     @BeforeEach
     void setUp() throws Exception {
         account = new AccountTestBuilder(1).withTestDefaults().id(null).name("name.1").build();
+        clean();
     }
 
     @AfterEach
     void tearDown() throws Exception {
+        clean();
+    }
+
+    void clean() {
         Optional<Account> accountOtional = accountRepository.findByName("name.1");
         accountOtional.ifPresent(account1 -> accountRepository.delete(account1));
     }
@@ -55,7 +60,7 @@ class AccountServiceIntegrationTest extends AbstractIntegrationTest {
     @Test
     void shouldSaveAccountToDatabase() {
         HttpRequest request = request("/api/entity/name.1").withMethod("GET");
-        mockServerContainer.getClient().when(request)
+        getMockServerContainer().getClient().when(request)
                 .respond(response()
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
                         .withStatusCode(200)
@@ -64,13 +69,13 @@ class AccountServiceIntegrationTest extends AbstractIntegrationTest {
         Account actual = unterTest.createAccount(account);
 
         assertThat(actual).isEqualTo(account);
-        mockServerContainer.getClient().verify(request);
+        getMockServerContainer().getClient().verify(request);
     }
 
     @Test
     void shouldNotSaveAccountWhenProblemWithCommunicationWithExternalService() {
         HttpRequest request = request("/api/entity/name.1").withMethod("GET");
-        mockServerContainer.getClient().when(request)
+        getMockServerContainer().getClient().when(request)
                 .respond(response()
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
                         .withStatusCode(200)
@@ -86,7 +91,7 @@ class AccountServiceIntegrationTest extends AbstractIntegrationTest {
     @Test
     void shouldFailBecauseOf404ResponseFromExternalService() {
         HttpRequest request = request("/api/entity/name.1").withMethod("GET");
-        mockServerContainer.getClient().when(request)
+        getMockServerContainer().getClient().when(request)
                 .respond(response()
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
                         .withStatusCode(404));
@@ -102,7 +107,7 @@ class AccountServiceIntegrationTest extends AbstractIntegrationTest {
         accountRepository.save(account);
 
         HttpRequest request = request("/api/entity/name.1").withMethod("GET");
-        mockServerContainer.getClient().when(request)
+        getMockServerContainer().getClient().when(request)
                 .respond(response()
                         .withHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON.toString())
                         .withStatusCode(200)

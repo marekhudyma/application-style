@@ -1,8 +1,6 @@
 package com.marekhudyma.testcontainers.queue;
 
 import com.marekhudyma.testcontainers.util.AbstractIntegrationTest;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
