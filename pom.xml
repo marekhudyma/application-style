@@ -4,12 +4,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.marekhudyma</groupId>
-	<artifactId>testcontainers</artifactId>
+	<artifactId>application-style</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>testcontainers</name>
-	<description>sample project</description>
+	<name>application-style</name>
+	<description>application-style</description>
 
 	<parent>
 		<groupId>org.springframework.boot</groupId>

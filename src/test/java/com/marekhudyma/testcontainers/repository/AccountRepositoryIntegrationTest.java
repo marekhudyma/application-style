@@ -1,7 +1,8 @@
 package com.marekhudyma.testcontainers.repository;
 
 
-import com.marekhudyma.testcontainers.model.Account;
+import com.marekhudyma.testcontainers.domain.model.Account;
+import com.marekhudyma.testcontainers.persistence.AccountRepository;
 import com.marekhudyma.testcontainers.util.AbstractIntegrationTest;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
