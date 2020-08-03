@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+
+    <Appenders>
+        <Console name="Console" target="SYSTEM_OUT">
+            <PatternLayout pattern="%d [%thread] %-5level %logger{1.} - %msg%n"/>
+        </Console>
+
+        <Console name="Container" target="SYSTEM_OUT">
+            <PatternLayout pattern="%msg%n"/>
+        </Console>
+    </Appenders>
+
+    <Loggers>
+        <Logger name="com.marekhudyma" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="org.testcontainers" level="INFO" additivity="false">
+            <AppenderRef ref="Console"/>
+        </Logger>
+
+        <Logger name="Docker-Container" level="INFO" additivity="false">
+            <AppenderRef ref="Container"/>
+        </Logger>
+
+        <Root level="FATAL">
+            <AppenderRef ref="Console"/>
+        </Root>
+    </Loggers>
+</Configuration>

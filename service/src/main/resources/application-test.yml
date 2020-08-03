@@ -1,0 +1,4 @@
+db_url: jdbc:postgresql://localhost:5432/application-style
+db_username: marek
+db_password: password
+spring.jpa.show-sql: true

@@ -1,0 +1,5 @@
+{
+  "title": "INTERNAL_SERVER_ERROR",
+  "statusCode": 500,
+  "detail": "some exception"
+}
