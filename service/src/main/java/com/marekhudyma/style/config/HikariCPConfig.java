@@ -23,7 +23,7 @@ public class HikariCPConfig {
     private String password;
 
     @Bean
-    @Primary
+    //@Primary
     public DataSource dataSource() {
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setJdbcUrl(url);

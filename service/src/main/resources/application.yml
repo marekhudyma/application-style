@@ -1,3 +1,10 @@
 db_url: jdbc:postgresql://localhost:5432/application-style
 db_username: postgres
 db_password: postgres
+
+spring.datasource.hikari.max-lifetime: 600000
+spring.datasource.testWhileIdle: true
+spring.datasource.test-on-borrow: true
+
+spring.datasource.hikari.leakDetectionThreshold: 2000
+logging.level.com.zaxxer.hikari: DEBUG
