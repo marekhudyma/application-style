@@ -3,18 +3,13 @@ package com.marekhudyma.style.util;
 
 import lombok.extern.log4j.Log4j2;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.util.TestPropertyValues;
-import org.springframework.context.ApplicationContextInitializer;
-import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.DynamicPropertyRegistry;
+import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
-
-import javax.validation.constraints.NotNull;
 
 @Log4j2
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-@ContextConfiguration(initializers = AbstractIntegrationTest.Initializer.class)
 @ActiveProfiles("test")
 public abstract class AbstractIntegrationTest {
 
@@ -32,16 +27,11 @@ public abstract class AbstractIntegrationTest {
         }));
     }
 
-    public static class Initializer implements ApplicationContextInitializer<ConfigurableApplicationContext> {
-
-        @Override
-        public void initialize(@NotNull ConfigurableApplicationContext configurableApplicationContext) {
-            TestPropertyValues values = TestPropertyValues.of(
-                    "db_url=" + postgreSQLContainer.getJdbcUrl(),
-                    "db_username=" + postgreSQLContainer.getUsername(),
-                    "db_password=" + postgreSQLContainer.getPassword()
-            );
-            values.applyTo(configurableApplicationContext);
-        }
+    @DynamicPropertySource
+    static void postgresqlProperties(DynamicPropertyRegistry registry) {
+        registry.add("db_url", postgreSQLContainer::getJdbcUrl);
+        registry.add("db_username", postgreSQLContainer::getUsername);
+        registry.add("db_password", postgreSQLContainer::getPassword);
     }
+
 }
