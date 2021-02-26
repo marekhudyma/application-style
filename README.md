@@ -17,8 +17,8 @@ java --enable-preview -jar target/application-style-exec.jar
 
 
 # Links
-(Zalando blog post)[https://engineering.zalando.com/posts/2021/02/integration-tests-with-testcontainers.html]
-(personal blog post)[https://marekhudyma.com/tests/2018/12/01/integration-tests-with-testcontainers.html]
+[Zalando blog post](https://engineering.zalando.com/posts/2021/02/integration-tests-with-testcontainers.html)
+[personal blog post](https://marekhudyma.com/tests/2018/12/01/integration-tests-with-testcontainers.html)
 
 
 # Concept of integration tests with testcontainers.org library
