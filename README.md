@@ -95,3 +95,6 @@ TestContainers support docker_compose file, but only version 2.0; while the dock
 # Alternative solutions
 I liked TestContainers library. Personally I find `http://testcompose.com` library more interesting.
 The main advantage is that it simply runs docker_compose file and reduces boilerplate code.
+
+# Note
+In the example I used Java 15, whereas I always wait for a [new release of Java](https://is.java.released.info)
