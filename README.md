@@ -12,7 +12,7 @@ mvn clean install
 
 # How to run the application on localhost
 ```
-java --enable-preview -jar target/application-style-exec.jar
+java -jar target/application-style-exec.jar
 ```
 
 
@@ -97,4 +97,4 @@ I liked TestContainers library. Personally I find `http://testcompose.com` libra
 The main advantage is that it simply runs docker_compose file and reduces boilerplate code.
 
 # Note
-In the example I used Java 15, whereas I always wait for a [new release of Java](https://is.java.released.info)
+In the example I used Java 17, whereas I always wait for a [new release of Java](https://is.java.released.info)
