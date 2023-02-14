@@ -11,8 +11,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.orm.ObjectOptimisticLockingFailureException;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class UpdateAccountCommand implements Command<AccountUpdate, Result<Error, Account>> {
 
     private final AccountRepository accountRepository;

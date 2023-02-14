@@ -9,8 +9,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Component;
 
+import javax.transaction.Transactional;
+
 @Component
 @RequiredArgsConstructor
+@Transactional
 public class CreateAccountCommand implements Command<Account, Result<Error, Account>> {
 
     private final AccountRepository accountRepository;
