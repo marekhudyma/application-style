@@ -54,5 +54,4 @@ public class UpdateAccountCommand implements Command<AccountUpdate, Result<Error
         String getVersion();
 
     }
-
 }
