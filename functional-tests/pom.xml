@@ -14,7 +14,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>17</java.version>
-        <spring-boot-starter-test.version>2.6.3</spring-boot-starter-test.version>
+        <spring-boot-starter-test.version>2.6.6</spring-boot-starter-test.version>
         <httpclient.version>4.5.13</httpclient.version>
         <!-- test -->
         <testcontainers.version>1.15.3</testcontainers.version>
